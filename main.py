@@ -57,6 +57,19 @@ while True:
         break
 
     if event == 'Refresh':
-        refreshed = headlineList[0]
+
+        URL = "https://babylonbee.com/news"
+        r = requests.get(URL)
+
+        soup = BeautifulSoup(r.content, 'html.parser')
+        headlines = soup.find_all('article-card')
+
+        headlineList = []
+        
+        for headline in headlines:
+            text = str(headline).partition(":title='")[2].partition("'>")[0]
+            if (text != ''):
+                headlineList.append(text)
+                refreshed = headlineList[0]
 
 window.close()
